@@ -4,538 +4,656 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kalkulator Harga Jual & Profit</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Reset CSS */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
+        
         body {
-            background-color: #f5f7fa;
-            color: #333;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
             line-height: 1.6;
             padding: 20px;
         }
-
+        
         .container {
-            max-width: 900px;
+            max-width: 1200px;
             margin: 0 auto;
         }
-
+        
+        /* Header Styles */
         header {
             text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+            margin-bottom: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
             color: white;
-            border-radius: 12px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.2);
         }
-
+        
         header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            font-weight: 700;
         }
-
+        
         header p {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
         }
-
-        .calculator-container {
+        
+        /* Main Layout */
+        .main-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 30px;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
         }
-
-        @media (max-width: 768px) {
-            .calculator-container {
+        
+        @media (max-width: 992px) {
+            .main-content {
                 grid-template-columns: 1fr;
             }
         }
-
-        .input-section, .result-section {
+        
+        /* Card Styles */
+        .card {
             background-color: white;
+            border-radius: 15px;
             padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-
-        .section-title {
-            font-size: 1.5rem;
-            color: #2c3e50;
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-title {
+            font-size: 1.8rem;
+            color: #1e293b;
             margin-bottom: 25px;
-            padding-bottom: 10px;
-            border-bottom: 3px solid #4b6cb7;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #3b82f6;
             display: flex;
             align-items: center;
         }
-
-        .section-title i {
-            margin-right: 10px;
-            color: #4b6cb7;
+        
+        .card-title i {
+            margin-right: 12px;
+            color: #3b82f6;
         }
-
+        
+        /* Form Styles */
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
-
+        
         label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             font-weight: 600;
-            color: #2c3e50;
+            color: #475569;
+            font-size: 1.1rem;
         }
-
-        input {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e0e6ed;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: border-color 0.3s;
-        }
-
-        input:focus {
-            border-color: #4b6cb7;
-            outline: none;
-        }
-
-        .unit {
+        
+        .input-with-unit {
             position: relative;
         }
-
-        .unit input {
-            padding-right: 50px;
+        
+        .input-with-unit input {
+            width: 100%;
+            padding: 16px 20px;
+            padding-right: 60px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            transition: all 0.3s;
         }
-
-        .unit span {
+        
+        .input-with-unit input:focus {
+            border-color: #3b82f6;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        .input-unit {
             position: absolute;
-            right: 15px;
+            right: 20px;
             top: 50%;
             transform: translateY(-50%);
-            color: #7f8c8d;
             font-weight: 600;
+            color: #64748b;
         }
-
+        
+        .help-text {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            margin-top: 8px;
+        }
+        
+        /* Button Styles */
         .button-group {
             display: flex;
             gap: 15px;
             margin-top: 30px;
         }
-
+        
         button {
             flex: 1;
-            padding: 15px;
+            padding: 18px 20px;
             border: none;
-            border-radius: 8px;
-            font-size: 1rem;
+            border-radius: 10px;
+            font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
-
-        .calculate-btn {
-            background-color: #4b6cb7;
+        
+        .btn-primary {
+            background-color: #3b82f6;
             color: white;
         }
-
-        .calculate-btn:hover {
-            background-color: #3a559f;
+        
+        .btn-primary:hover {
+            background-color: #2563eb;
             transform: translateY(-3px);
-            box-shadow: 0 5px 10px rgba(74, 108, 183, 0.3);
+            box-shadow: 0 7px 15px rgba(59, 130, 246, 0.3);
         }
-
-        .reset-btn {
-            background-color: #e0e6ed;
-            color: #2c3e50;
+        
+        .btn-secondary {
+            background-color: #f1f5f9;
+            color: #475569;
         }
-
-        .reset-btn:hover {
-            background-color: #d1d9e6;
+        
+        .btn-secondary:hover {
+            background-color: #e2e8f0;
             transform: translateY(-3px);
         }
-
-        .result-box {
-            background-color: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            border-left: 5px solid #4b6cb7;
+        
+        /* Result Styles */
+        .result-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
         }
-
+        
         .result-title {
-            font-size: 1rem;
-            color: #7f8c8d;
-            margin-bottom: 8px;
+            font-size: 1.1rem;
+            color: #64748b;
+            margin-bottom: 10px;
+            font-weight: 600;
         }
-
+        
         .result-value {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #2c3e50;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 5px;
         }
-
-        .profit {
-            color: #27ae60;
-        }
-
-        .loss {
-            color: #e74c3c;
-        }
-
-        .neutral {
-            color: #7f8c8d;
-        }
-
+        
         .result-detail {
-            font-size: 1rem;
-            margin-top: 5px;
-            color: #5a6c7d;
+            font-size: 1.1rem;
+            color: #64748b;
         }
-
+        
+        .profit {
+            color: #10b981;
+        }
+        
+        .loss {
+            color: #ef4444;
+        }
+        
+        .neutral {
+            color: #6b7280;
+        }
+        
+        .result-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .result-row {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Chart Styles */
         .chart-container {
             margin-top: 30px;
-            height: 200px;
+            height: 220px;
             display: flex;
             align-items: flex-end;
-            gap: 10px;
-            padding: 20px;
-            background-color: #f8f9fa;
-            border-radius: 8px;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 25px;
+            background-color: #f8fafc;
+            border-radius: 12px;
         }
-
+        
         .chart-bar {
             flex: 1;
-            background: linear-gradient(to top, #4b6cb7, #6c8ae4);
-            border-radius: 4px 4px 0 0;
+            border-radius: 8px 8px 0 0;
             position: relative;
             min-height: 5px;
+            transition: height 1s ease;
         }
-
+        
         .chart-bar-label {
             position: absolute;
-            bottom: -25px;
+            bottom: -40px;
             left: 0;
             width: 100%;
             text-align: center;
-            font-size: 0.85rem;
-            color: #5a6c7d;
+            font-size: 0.95rem;
+            color: #475569;
             font-weight: 600;
         }
-
-        .chart-bar-cost {
-            background: linear-gradient(to top, #e74c3c, #ff6b6b);
-        }
-
-        .chart-bar-profit {
-            background: linear-gradient(to top, #27ae60, #2ecc71);
-        }
-
-        .explanation {
-            margin-top: 40px;
-            background-color: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
-        }
-
-        .explanation h3 {
-            color: #2c3e50;
-            margin-bottom: 15px;
-            font-size: 1.3rem;
-        }
-
-        .explanation p {
-            margin-bottom: 15px;
-            color: #5a6c7d;
-        }
-
-        .formula {
-            background-color: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 15px 0;
-            font-family: monospace;
+        
+        .chart-bar-value {
+            position: absolute;
+            top: -35px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-weight: 700;
             font-size: 1.1rem;
-            border-left: 4px solid #4b6cb7;
         }
-
+        
+        .cost-bar {
+            background: linear-gradient(to top, #ef4444, #f87171);
+        }
+        
+        .price-bar {
+            background: linear-gradient(to top, #3b82f6, #60a5fa);
+        }
+        
+        .profit-bar {
+            background: linear-gradient(to top, #10b981, #34d399);
+        }
+        
+        /* Explanation Section */
+        .explanation {
+            background-color: white;
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+            margin-top: 30px;
+        }
+        
+        .explanation h3 {
+            color: #1e293b;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .explanation h3 i {
+            margin-right: 12px;
+            color: #3b82f6;
+        }
+        
+        .explanation p {
+            margin-bottom: 20px;
+            color: #475569;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        .formula-box {
+            background-color: #f0f9ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #3b82f6;
+            font-family: 'Courier New', monospace;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #1e293b;
+        }
+        
+        .highlight {
+            background-color: #fef3c7;
+            padding: 4px 8px;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+        
+        ul {
+            margin-left: 25px;
+            margin-bottom: 20px;
+        }
+        
+        li {
+            margin-bottom: 12px;
+            color: #475569;
+            font-size: 1.1rem;
+        }
+        
+        /* Footer */
         footer {
             text-align: center;
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid #e0e6ed;
-            color: #7f8c8d;
-            font-size: 0.9rem;
+            margin-top: 50px;
+            padding-top: 25px;
+            border-top: 1px solid #e2e8f0;
+            color: #64748b;
+            font-size: 1rem;
         }
-
-        .highlight {
-            background-color: #fffacd;
-            padding: 2px 5px;
-            border-radius: 3px;
-            font-weight: 600;
+        
+        /* Responsive adjustments */
+        @media (max-width: 576px) {
+            header h1 {
+                font-size: 2.2rem;
+            }
+            
+            header p {
+                font-size: 1rem;
+            }
+            
+            .card, .result-card, .explanation {
+                padding: 20px;
+            }
+            
+            .result-value {
+                font-size: 2rem;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            button {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1><i class="fas fa-calculator"></i> Kalkulator Harga Jual & Profit</h1>
-            <p>Hitung harga jual yang akurat dan analisis keuntungan atau kerugian bisnis Anda</p>
+            <h1>Kalkulator Harga Jual & Profit</h1>
+            <p>Hitung harga jual yang akurat dan analisis keuntungan atau kerugian bisnis Anda dengan mudah</p>
         </header>
-
-        <div class="calculator-container">
-            <div class="input-section">
-                <h2 class="section-title"><i class="fas fa-edit"></i> Data Input</h2>
+        
+        <div class="main-content">
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-calculator"></i> Input Data</h2>
                 
                 <div class="form-group">
-                    <label for="cost">Biaya Pembelian (HPP)</label>
-                    <div class="unit">
-                        <input type="number" id="cost" min="0" step="100" placeholder="Masukkan biaya pembelian">
-                        <span>Rp</span>
+                    <label for="hpp">Harga Pokok Penjualan (HPP)</label>
+                    <div class="input-with-unit">
+                        <input type="number" id="hpp" min="0" step="100" placeholder="Contoh: 50000" value="50000">
+                        <span class="input-unit">Rp</span>
                     </div>
+                    <div class="help-text">Biaya yang dikeluarkan untuk membeli/memproduksi barang</div>
                 </div>
                 
                 <div class="form-group">
                     <label for="margin">Margin Keuntungan (%)</label>
-                    <div class="unit">
-                        <input type="number" id="margin" min="0" max="500" step="0.5" placeholder="Masukkan margin keuntungan">
-                        <span>%</span>
+                    <div class="input-with-unit">
+                        <input type="number" id="margin" min="0" max="500" step="0.5" placeholder="Contoh: 30" value="30">
+                        <span class="input-unit">%</span>
                     </div>
+                    <div class="help-text">Persentase keuntungan yang ingin Anda dapatkan</div>
                 </div>
                 
                 <div class="form-group">
-                    <label for="additionalCost">Biaya Tambahan (Opsional)</label>
-                    <div class="unit">
-                        <input type="number" id="additionalCost" min="0" step="100" placeholder="Masukkan biaya tambahan">
-                        <span>Rp</span>
+                    <label for="biaya-tambahan">Biaya Tambahan (Opsional)</label>
+                    <div class="input-with-unit">
+                        <input type="number" id="biaya-tambahan" min="0" step="100" placeholder="Contoh: 5000" value="5000">
+                        <span class="input-unit">Rp</span>
                     </div>
-                    <small style="color: #7f8c8d;">Biaya operasional, pengemasan, dll.</small>
+                    <div class="help-text">Biaya operasional, pengemasan, transportasi, dll.</div>
                 </div>
                 
                 <div class="button-group">
-                    <button class="calculate-btn" id="calculateBtn">
-                        <i class="fas fa-calculator"></i> Hitung Harga Jual
+                    <button class="btn-primary" id="hitung-btn">
+                        <i class="fas fa-calculator"></i> Hitung Sekarang
                     </button>
-                    <button class="reset-btn" id="resetBtn">
+                    <button class="btn-secondary" id="reset-btn">
                         <i class="fas fa-redo"></i> Reset
                     </button>
                 </div>
             </div>
-
-            <div class="result-section">
-                <h2 class="section-title"><i class="fas fa-chart-line"></i> Hasil Perhitungan</h2>
+            
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-chart-bar"></i> Visualisasi Profit</h2>
                 
-                <div class="result-box">
-                    <div class="result-title">Harga Jual yang Disarankan</div>
-                    <div class="result-value" id="sellingPrice">Rp 0</div>
-                    <div class="result-detail">Harga optimal untuk mencapai margin yang diinginkan</div>
-                </div>
-                
-                <div class="result-box">
-                    <div class="result-title">Keuntungan / Kerugian</div>
-                    <div class="result-value" id="profitLoss">Rp 0</div>
-                    <div class="result-detail" id="profitLossPercent">0% dari biaya pembelian</div>
-                </div>
-                
-                <div class="result-box">
-                    <div class="result-title">Total Biaya</div>
-                    <div class="result-value" id="totalCost">Rp 0</div>
-                    <div class="result-detail">Biaya pembelian + biaya tambahan</div>
-                </div>
-                
-                <div class="chart-container">
-                    <div class="chart-bar chart-bar-cost" id="costBar">
-                        <div class="chart-bar-label">Biaya</div>
+                <div class="chart-container" id="chart-container">
+                    <div class="chart-bar cost-bar" id="cost-bar">
+                        <div class="chart-bar-value" id="cost-value">Rp 0</div>
+                        <div class="chart-bar-label">Biaya Total</div>
                     </div>
-                    <div class="chart-bar" id="priceBar">
+                    <div class="chart-bar price-bar" id="price-bar">
+                        <div class="chart-bar-value" id="price-value">Rp 0</div>
                         <div class="chart-bar-label">Harga Jual</div>
                     </div>
-                    <div class="chart-bar chart-bar-profit" id="profitBar">
+                    <div class="chart-bar profit-bar" id="profit-bar">
+                        <div class="chart-bar-value" id="profit-value">Rp 0</div>
                         <div class="chart-bar-label">Keuntungan</div>
                     </div>
                 </div>
+                
+                <div class="help-text" style="text-align: center; margin-top: 60px;">
+                    Diagram di atas menunjukkan perbandingan antara biaya total, harga jual, dan keuntungan
+                </div>
             </div>
         </div>
-
-        <div class="explanation">
-            <h3><i class="fas fa-info-circle"></i> Cara Menghitung Harga Jual yang Akurat</h3>
-            <p>Menentukan harga jual yang tepat sangat penting untuk keberhasilan bisnis. Harga yang terlalu rendah dapat mengakibatkan kerugian, sementara harga yang terlalu tinggi dapat mengurangi daya saing.</p>
+        
+        <div class="result-card">
+            <h2 class="card-title"><i class="fas fa-poll"></i> Hasil Perhitungan</h2>
             
-            <div class="formula">
-                Harga Jual = Total Biaya × (1 + Margin/100)
+            <div class="result-row">
+                <div class="result-item">
+                    <div class="result-title">Harga Jual yang Disarankan</div>
+                    <div class="result-value" id="harga-jual">Rp 0</div>
+                    <div class="result-detail">Harga optimal untuk mencapai margin yang diinginkan</div>
+                </div>
+                
+                <div class="result-item">
+                    <div class="result-title">Keuntungan / Kerugian</div>
+                    <div class="result-value" id="keuntungan">Rp 0</div>
+                    <div class="result-detail" id="persen-keuntungan">0% dari total biaya</div>
+                </div>
+                
+                <div class="result-item">
+                    <div class="result-title">Total Biaya</div>
+                    <div class="result-value" id="total-biaya">Rp 0</div>
+                    <div class="result-detail">HPP + Biaya tambahan</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="explanation">
+            <h3><i class="fas fa-info-circle"></i> Cara Menentukan Harga Jual yang Akurat</h3>
+            
+            <p>Menentukan harga jual yang tepat adalah kunci keberhasilan bisnis. Harga yang terlalu rendah dapat mengakibatkan kerugian, sementara harga yang terlalu tinggi dapat membuat produk kurang kompetitif di pasaran.</p>
+            
+            <div class="formula-box">
+                Harga Jual = (HPP + Biaya Tambahan) × (1 + Margin/100)
             </div>
             
-            <p>Di mana:</p>
+            <p>Rumus di atas adalah dasar untuk menghitung harga jual yang akurat. Mari kita uraikan:</p>
+            
             <ul>
-                <li><span class="highlight">Total Biaya</span> = Biaya Pembelian + Biaya Tambahan</li>
-                <li><span class="highlight">Margin Keuntungan</span> = Persentase keuntungan yang diinginkan dari total biaya</li>
-                <li><span class="highlight">Keuntungan</span> = Harga Jual - Total Biaya</li>
+                <li><span class="highlight">HPP (Harga Pokok Penjualan)</span>: Biaya langsung untuk memperoleh atau memproduksi barang.</li>
+                <li><span class="highlight">Biaya Tambahan</span>: Biaya tidak langsung seperti pengemasan, transportasi, tenaga kerja, dll.</li>
+                <li><span class="highlight">Margin Keuntungan</span>: Persentase keuntungan yang ingin Anda dapatkan dari total biaya.</li>
+                <li><span class="highlight">Keuntungan</span>: Selisih antara harga jual dan total biaya (HPP + Biaya Tambahan).</li>
             </ul>
             
-            <p>Dengan kalkulator ini, Anda dapat menentukan harga jual yang akurat dan menganalisis apakah bisnis Anda menghasilkan keuntungan atau kerugian.</p>
+            <p>Dengan kalkulator ini, Anda dapat dengan mudah menghitung harga jual yang optimal dan menganalisis apakah bisnis Anda menghasilkan keuntungan atau kerugian.</p>
+            
+            <p><strong>Tips:</strong> Selalu pertimbangkan harga pasar, nilai produk di mata konsumen, dan biaya tak terduga saat menentukan harga jual.</p>
         </div>
-
+        
         <footer>
-            <p>Kalkulator Harga Jual & Profit &copy; 2023 | Dibuat untuk membantu perhitungan bisnis yang akurat</p>
+            <p>Kalkulator Harga Jual & Profit © 2023 | Dibuat untuk membantu pengusaha menentukan harga jual yang akurat</p>
         </footer>
     </div>
-
+    
+    <!-- Font Awesome Icons -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+    
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const costInput = document.getElementById('cost');
-            const marginInput = document.getElementById('margin');
-            const additionalCostInput = document.getElementById('additionalCost');
-            const calculateBtn = document.getElementById('calculateBtn');
-            const resetBtn = document.getElementById('resetBtn');
+        // Elemen input
+        const hppInput = document.getElementById('hpp');
+        const marginInput = document.getElementById('margin');
+        const biayaTambahanInput = document.getElementById('biaya-tambahan');
+        const hitungBtn = document.getElementById('hitung-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        
+        // Elemen hasil
+        const hargaJualElement = document.getElementById('harga-jual');
+        const keuntunganElement = document.getElementById('keuntungan');
+        const persenKeuntunganElement = document.getElementById('persen-keuntungan');
+        const totalBiayaElement = document.getElementById('total-biaya');
+        
+        // Elemen chart
+        const costBar = document.getElementById('cost-bar');
+        const priceBar = document.getElementById('price-bar');
+        const profitBar = document.getElementById('profit-bar');
+        const costValue = document.getElementById('cost-value');
+        const priceValue = document.getElementById('price-value');
+        const profitValue = document.getElementById('profit-value');
+        
+        // Format angka ke Rupiah
+        function formatRupiah(angka) {
+            return 'Rp ' + angka.toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&.');
+        }
+        
+        // Format persen
+        function formatPersen(angka) {
+            return angka.toFixed(2) + '%';
+        }
+        
+        // Hitung harga jual dan keuntungan
+        function hitungHargaJual() {
+            // Ambil nilai input
+            const hpp = parseFloat(hppInput.value) || 0;
+            const margin = parseFloat(marginInput.value) || 0;
+            const biayaTambahan = parseFloat(biayaTambahanInput.value) || 0;
             
-            const sellingPriceElement = document.getElementById('sellingPrice');
-            const profitLossElement = document.getElementById('profitLoss');
-            const profitLossPercentElement = document.getElementById('profitLossPercent');
-            const totalCostElement = document.getElementById('totalCost');
+            // Hitung total biaya
+            const totalBiaya = hpp + biayaTambahan;
             
-            const costBar = document.getElementById('costBar');
-            const priceBar = document.getElementById('priceBar');
-            const profitBar = document.getElementById('profitBar');
+            // Hitung harga jual
+            const hargaJual = totalBiaya * (1 + margin/100);
             
-            // Set nilai default
-            costInput.value = 100000;
-            marginInput.value = 30;
-            additionalCostInput.value = 15000;
+            // Hitung keuntungan/kerugian
+            const keuntungan = hargaJual - totalBiaya;
             
-            // Hitung secara otomatis saat halaman dimuat
-            calculate();
+            // Hitung persentase keuntungan/kerugian
+            const persenKeuntungan = (keuntungan / totalBiaya) * 100;
             
-            // Event listeners
-            calculateBtn.addEventListener('click', calculate);
-            resetBtn.addEventListener('click', resetForm);
+            // Tampilkan hasil
+            totalBiayaElement.textContent = formatRupiah(totalBiaya);
+            hargaJualElement.textContent = formatRupiah(hargaJual);
+            keuntunganElement.textContent = formatRupiah(keuntungan);
             
-            // Hitung otomatis saat input berubah
-            [costInput, marginInput, additionalCostInput].forEach(input => {
-                input.addEventListener('input', calculate);
-            });
-            
-            function calculate() {
-                // Ambil nilai input
-                const cost = parseFloat(costInput.value) || 0;
-                const margin = parseFloat(marginInput.value) || 0;
-                const additionalCost = parseFloat(additionalCostInput.value) || 0;
-                
-                // Hitung total biaya
-                const totalCost = cost + additionalCost;
-                
-                // Hitung harga jual berdasarkan margin
-                const sellingPrice = totalCost * (1 + margin/100);
-                
-                // Hitung keuntungan/rugi
-                const profitLoss = sellingPrice - totalCost;
-                
-                // Hitung persentase keuntungan/rugi terhadap biaya
-                const profitLossPercent = (profitLoss / totalCost) * 100;
-                
-                // Tampilkan hasil dengan format Rupiah
-                sellingPriceElement.textContent = formatRupiah(sellingPrice);
-                totalCostElement.textContent = formatRupiah(totalCost);
-                
-                // Tentukan apakah untung atau rugi
-                if (profitLoss > 0) {
-                    profitLossElement.textContent = formatRupiah(profitLoss);
-                    profitLossElement.className = 'result-value profit';
-                    profitLossPercentElement.textContent = `+${profitLossPercent.toFixed(2)}% dari total biaya`;
-                    profitLossPercentElement.className = 'result-detail profit';
-                } else if (profitLoss < 0) {
-                    profitLossElement.textContent = formatRupiah(profitLoss);
-                    profitLossElement.className = 'result-value loss';
-                    profitLossPercentElement.textContent = `${profitLossPercent.toFixed(2)}% dari total biaya`;
-                    profitLossPercentElement.className = 'result-detail loss';
-                } else {
-                    profitLossElement.textContent = formatRupiah(profitLoss);
-                    profitLossElement.className = 'result-value neutral';
-                    profitLossPercentElement.textContent = `0% dari total biaya (Tidak untung atau rugi)`;
-                    profitLossPercentElement.className = 'result-detail neutral';
-                }
-                
-                // Update chart
-                updateChart(cost, additionalCost, profitLoss, sellingPrice);
+            // Tentukan apakah untung atau rugi
+            if (keuntungan > 0) {
+                keuntunganElement.className = 'result-value profit';
+                persenKeuntunganElement.textContent = `+${formatPersen(persenKeuntungan)} dari total biaya`;
+                persenKeuntunganElement.className = 'result-detail profit';
+            } else if (keuntungan < 0) {
+                keuntunganElement.className = 'result-value loss';
+                persenKeuntunganElement.textContent = `${formatPersen(persenKeuntungan)} dari total biaya`;
+                persenKeuntunganElement.className = 'result-detail loss';
+            } else {
+                keuntunganElement.className = 'result-value neutral';
+                persenKeuntunganElement.textContent = `0% dari total biaya`;
+                persenKeuntunganElement.className = 'result-detail neutral';
             }
             
-            function updateChart(cost, additionalCost, profit, sellingPrice) {
-                // Cari nilai maksimum untuk skala chart
-                const maxValue = Math.max(sellingPrice, cost + additionalCost + Math.max(profit, 0));
-                
-                // Hitung tinggi setiap bar (maksimum 200px)
-                const costHeight = (cost / maxValue) * 180;
-                const additionalHeight = (additionalCost / maxValue) * 180;
-                const profitHeight = (Math.max(profit, 0) / maxValue) * 180;
-                const priceHeight = (sellingPrice / maxValue) * 180;
-                
-                // Set tinggi bar biaya
-                costBar.style.height = `${costHeight + additionalHeight}px`;
-                
-                // Set tinggi bar harga jual
-                priceBar.style.height = `${priceHeight}px`;
-                
-                // Set tinggi bar keuntungan (hanya jika profit positif)
-                if (profit > 0) {
-                    profitBar.style.height = `${profitHeight}px`;
-                    profitBar.style.display = 'block';
-                } else {
-                    profitBar.style.display = 'none';
-                }
-                
-                // Update label biaya
-                costBar.querySelector('.chart-bar-label').textContent = `Biaya: ${formatRupiahShort(cost + additionalCost)}`;
-                
-                // Update label harga jual
-                priceBar.querySelector('.chart-bar-label').textContent = `Jual: ${formatRupiahShort(sellingPrice)}`;
-                
-                // Update label keuntungan
-                if (profit > 0) {
-                    profitBar.querySelector('.chart-bar-label').textContent = `Untung: ${formatRupiahShort(profit)}`;
-                }
-            }
+            // Update chart
+            updateChart(totalBiaya, hargaJual, keuntungan);
+        }
+        
+        // Update chart visualisasi
+        function updateChart(totalBiaya, hargaJual, keuntungan) {
+            // Cari nilai maksimum untuk skala
+            const maxValue = Math.max(totalBiaya, hargaJual, keuntungan > 0 ? keuntungan : 0);
+            const chartHeight = 220; // Tinggi chart container
             
-            function resetForm() {
-                costInput.value = '';
-                marginInput.value = '';
-                additionalCostInput.value = '';
-                
-                sellingPriceElement.textContent = 'Rp 0';
-                profitLossElement.textContent = 'Rp 0';
-                profitLossElement.className = 'result-value neutral';
-                profitLossPercentElement.textContent = '0% dari biaya pembelian';
-                profitLossPercentElement.className = 'result-detail neutral';
-                totalCostElement.textContent = 'Rp 0';
-                
-                // Reset chart
-                costBar.style.height = '5px';
-                priceBar.style.height = '5px';
-                profitBar.style.height = '5px';
-                profitBar.style.display = 'block';
-                
-                costBar.querySelector('.chart-bar-label').textContent = 'Biaya';
-                priceBar.querySelector('.chart-bar-label').textContent = 'Harga Jual';
-                profitBar.querySelector('.chart-bar-label').textContent = 'Keuntungan';
-            }
+            // Hitung tinggi setiap bar
+            const costHeight = (totalBiaya / maxValue) * (chartHeight - 70);
+            const priceHeight = (hargaJual / maxValue) * (chartHeight - 70);
+            const profitHeight = keuntungan > 0 ? (keuntungan / maxValue) * (chartHeight - 70) : 5;
             
-            function formatRupiah(amount) {
-                return 'Rp ' + amount.toFixed(0).replace(/\d(?=(\d{3})+$)/g, '$&.');
-            }
+            // Set tinggi bar
+            costBar.style.height = `${costHeight}px`;
+            priceBar.style.height = `${priceHeight}px`;
+            profitBar.style.height = `${profitHeight}px`;
             
-            function formatRupiahShort(amount) {
-                if (amount >= 1000000) {
-                    return 'Rp ' + (amount/1000000).toFixed(1) + 'Jt';
-                } else if (amount >= 1000) {
-                    return 'Rp ' + (amount/1000).toFixed(0) + 'Rb';
-                }
-                return 'Rp ' + amount.toFixed(0);
+            // Update nilai di atas bar
+            costValue.textContent = formatRupiah(totalBiaya);
+            priceValue.textContent = formatRupiah(hargaJual);
+            profitValue.textContent = formatRupiah(keuntungan);
+            
+            // Sembunyikan profit bar jika tidak ada keuntungan
+            if (keuntungan <= 0) {
+                profitBar.style.opacity = '0.5';
+                profitValue.textContent = "Rp 0";
+            } else {
+                profitBar.style.opacity = '1';
             }
-        });
+        }
+        
+        // Reset form
+        function resetForm() {
+            hppInput.value = '';
+            marginInput.value = '';
+            biayaTambahanInput.value = '';
+            
+            totalBiayaElement.textContent = 'Rp 0';
+            hargaJualElement.textContent = 'Rp 0';
+            keuntunganElement.textContent = 'Rp 0';
+            keuntunganElement.className = 'result-value neutral';
+            persenKeuntunganElement.textContent = '0% dari total biaya';
+            persenKeuntunganElement.className = 'result-detail neutral';
+            
+            // Reset chart
+            costBar.style.height = '5px';
+            priceBar.style.height = '5px';
+            profitBar.style.height = '5px';
+            costValue.textContent = 'Rp 0';
+            priceValue.textContent = 'Rp 0';
+            profitValue.textContent = 'Rp 0';
+            profitBar.style.opacity = '1';
+        }
+        
+        // Event listener untuk tombol hitung
+        hitungBtn.addEventListener('click', hitungHargaJual);
+        
+        // Event listener untuk tombol reset
+        resetBtn.addEventListener('click', resetForm);
+        
+        // Hitung otomatis saat input berubah
+        hppInput.addEventListener('input', hitungHargaJual);
+        marginInput.addEventListener('input', hitungHargaJual);
+        biayaTambahanInput.addEventListener('input', hitungHargaJual);
+        
+        // Hitung saat halaman pertama kali dimuat
+        document.addEventListener('DOMContentLoaded', hitungHargaJual);
     </script>
 </body>
 </html>
